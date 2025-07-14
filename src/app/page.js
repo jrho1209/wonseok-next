@@ -3,6 +3,7 @@ import Card from "@/components/Card";
 import Hero from "@/components/Hero";
 import AboutMe from "@/components/AboutMe";
 import ImageCarousel from "@/components/ImageCarousel";
+import ContactMe from "@/components/ContactMe";
 
 export default function HomePage() {
   return (
@@ -10,6 +11,7 @@ export default function HomePage() {
     <Hero />
     <AboutMe />
     <ImageCarousel />
+    <ContactMe />
     
     </>
   );
