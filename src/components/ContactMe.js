@@ -19,7 +19,7 @@ export default function ContactMe() {
         </a>
 
         <a
-          href="https://twitter.com/your-profile"
+          href="https://x.com/leews_16"
           target="_blank"
           rel="noopener noreferrer"
           className="text-gray-600 hover:text-blue-500 text-3xl"

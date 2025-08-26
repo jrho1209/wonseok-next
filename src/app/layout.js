@@ -13,14 +13,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "James Rho - Musicology PhD",
+  title: "Wonseok Lee - Musicology PhD",
   description: "Researcher, educator, and performer in musicology",
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="bg-gray-50 text-gray-900">
+      
+      <body className="bg-gray-100 text-gray-900">
         <Navbar />
         <main>{children}</main>
       </body>

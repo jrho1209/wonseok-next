@@ -1,54 +1,61 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import { FiMenu, FiX } from "react-icons/fi";
+import { usePathname } from "next/navigation";
 
 export default function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const pathname =usePathname();
 
-  const menuItems = [
-    { label: "About", href: "/about" },
-    { label: "Research & Publications", href: "/research" },
-    { label: "Teaching", href: "/teaching" },
-    { label: "Invited Talks", href: "/talks" },
-    { label: "CV", href: "/cv" },
-    { label: "Contact", href: "/contact" },
-  ];
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
-        <Link href="/" className="text-2xl font-bold text-gray-800">Wonseok Lee</Link>
+    <nav
+      className={`fixed top-0 left-0 right-0 w-full z-50 transition-all duration-300 ${
+        scrolled || pathname !== "/" ? "bg-white shadow-md py-6 text-gray-900" : "bg-transparent py-4 text-white"
+      }`}
+    >
+      <div className="flex items-center justify-between px-8 max-w-full mx-0">
+        <div className="text-2xl font-bold">Wonseok Lee</div>
 
-        {/* Mobile Menu Button */}
+        <div className={`hidden md:flex space-x-6 text-lg ${scrolled || pathname !== "/" ? "text-gray-900" : "text-white"}`}>
+          <Link href="/about" className="hover:text-blue-500">About</Link>
+          <Link href="/research" className="hover:text-blue-500">Research & Publications</Link>
+          <Link href="/teaching" className="hover:text-blue-500">Teaching</Link>
+          <Link href="/talks" className="hover:text-blue-500">Invited Talks</Link>
+          <Link href="/cv" className="hover:text-blue-500">CV</Link>
+          <Link href="/contact" className="hover:text-blue-500">Contact</Link>
+        </div>
+
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-2xl focus:outline-none">
-            {isOpen ? "✖" : "☰"}
+          <button onClick={toggleMenu} aria-label="Toggle Menu">
+            {menuOpen ? <FiX className="text-2xl" /> : <FiMenu className="text-2xl" />}
           </button>
         </div>
-
-        {/* Menu Items */}
-        <div
-          className={`${
-            isOpen ? "block" : "hidden"
-          } md:flex md:items-center w-full md:w-auto`}
-        >
-          <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
-            {menuItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  href={item.href}
-                  className="block py-2 md:py-0 text-gray-700 hover:text-blue-600 transition"
-                  onClick={() => setIsOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
+
+      {menuOpen && (
+        <div className={`absolute top-full left-0 w-full shadow-md flex flex-col items-start px-6 py-4 space-y-4 md:hidden z-50
+          ${scrolled || pathname !== "/" ? "bg-white text-gray-900" : "bg-transparent text-white"}`}>
+          <Link href="/about" onClick={toggleMenu}>About</Link>
+          <Link href="/research" onClick={toggleMenu}>Research & Publications</Link>
+          <Link href="/teaching" onClick={toggleMenu}>Teaching</Link>
+          <Link href="/talks" onClick={toggleMenu}>Invited Talks</Link>
+          <Link href="/cv" onClick={toggleMenu}>CV</Link>
+          <Link href="/contact" onClick={toggleMenu}>Contact</Link>
+        </div>
+      )}
     </nav>
   );
 }
