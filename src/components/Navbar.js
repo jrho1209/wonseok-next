@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiX, FiDownload } from "react-icons/fi";
 import { usePathname } from "next/navigation";
 
 export default function Navbar() {
@@ -27,14 +27,21 @@ export default function Navbar() {
       }`}
     >
       <div className="flex items-center justify-between px-8 max-w-full mx-0">
-        <div className="text-2xl font-bold">Wonseok Lee</div>
+        <Link href="/" className="text-2xl font-bold">
+          Wonseok Lee
+        </Link>
 
         <div className={`hidden md:flex space-x-6 text-lg ${scrolled || pathname !== "/" ? "text-gray-900" : "text-white"}`}>
           <Link href="/about" className="hover:text-blue-500">About</Link>
           <Link href="/research" className="hover:text-blue-500">Research & Publications</Link>
           <Link href="/teaching" className="hover:text-blue-500">Teaching</Link>
-          <Link href="/talks" className="hover:text-blue-500">Invited Talks</Link>
-          <Link href="/cv" className="hover:text-blue-500">CV</Link>
+          <a
+            href="/images/cv-wonseok.pdf"
+            download
+            className="flex items-center hover:text-blue-500"
+          >
+            CV <FiDownload className="ml-1" />
+          </a>
           <Link href="/contact" className="hover:text-blue-500">Contact</Link>
         </div>
 
@@ -51,8 +58,14 @@ export default function Navbar() {
           <Link href="/about" onClick={toggleMenu}>About</Link>
           <Link href="/research" onClick={toggleMenu}>Research & Publications</Link>
           <Link href="/teaching" onClick={toggleMenu}>Teaching</Link>
-          <Link href="/talks" onClick={toggleMenu}>Invited Talks</Link>
-          <Link href="/cv" onClick={toggleMenu}>CV</Link>
+          <a
+            href="/images/cv-wonseok.pdf"
+            download
+            className="flex items-center"
+            onClick={toggleMenu}
+          >
+            CV <FiDownload className="ml-1" />
+          </a>
           <Link href="/contact" onClick={toggleMenu}>Contact</Link>
         </div>
       )}
