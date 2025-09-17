@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import Footer from "@/components/Footer";
 import { FaCircle } from "react-icons/fa";
 
 export default function TeachingPage() {
@@ -81,6 +82,7 @@ export default function TeachingPage() {
           </ul>
         </div>
       </main>
+      <Footer />
     </>
   );
 }

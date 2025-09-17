@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import Footer from "@/components/Footer";
 
 export default function ResearchPage() {
   // 각 연구/출판물 데이터
@@ -107,6 +108,7 @@ export default function ResearchPage() {
         ))}
       </div>
     </main>
+    <Footer />
     </>
   );
 }

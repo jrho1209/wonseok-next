@@ -1,17 +1,41 @@
 "use client";
 
 import { useState } from "react";
-import { FaLinkedin, FaTwitter } from "react-icons/fa";
+import { FaLinkedin } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
+import emailjs from "@emailjs/browser";
 
 export default function ContactPage() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
+  const [name, setName] = useState("");
+  const [sending, setSending] = useState(false);
+  const [success, setSuccess] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const mailtoLink = `mailto:wonseok.lee@yale.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-    window.location.href = mailtoLink;
+    setSending(true);
+    setSuccess(null);
+
+    try {
+      await emailjs.send(
+        "service_24a3tqq",
+        "template_3aojydl",
+        {
+          name,
+          subject,
+          message,
+        },
+        "l3C4v5TBemsItXPhS"
+      );
+      setSuccess("Your message has been sent!");
+      setName("");
+      setSubject("");
+      setMessage("");
+    } catch (error) {
+      setSuccess("Failed to send. Please try again.");
+    }
+    setSending(false);
   };
 
   return (
@@ -28,9 +52,20 @@ export default function ContactPage() {
                 onChange={(e) => setSubject(e.target.value)}
                 className="w-full p-2 border rounded"
                 required
+                name="subject"
               />
             </div>
-
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-2 border rounded"
+                required
+                name="name"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
               <textarea
@@ -39,15 +74,22 @@ export default function ContactPage() {
                 className="w-full p-2 border rounded"
                 rows="5"
                 required
+                name="message"
               />
             </div>
 
             <button
               type="submit"
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+              disabled={sending}
             >
-              Send Email
+              {sending ? "Sending..." : "Send Email"}
             </button>
+            {success && (
+              <div className={`text-sm mt-2 ${success.includes("sent") ? "text-green-600" : "text-red-600"}`}>
+                {success}
+              </div>
+            )}
           </form>
 
           {/* Contact Cards */}
